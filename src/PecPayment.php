@@ -24,12 +24,12 @@ class PecPayment {
     }
  
     public function init($options = array() ){
-        $this->LoginAccount = isset($options['pin']) ? $options['pin'] : null;
-        $this->orderId = isset($options['order_id']) ? $options['order_id'] : null;
-        $this->amount =  isset($options['amount']) ? $options['amount'] : null;
-        $this->callbackURL = isset($options['callback_url']) ? $options['callback_url'] : null;
-        $this->AdditionalData = isset($options['AdditionalData']) ? $options['AdditionalData'] : null;
-        $this->Originator = isset($options['Originator']) ? $options['Originator'] : null;
+        $this->LoginAccount = isset($options['pin']) ? $options['pin'] : $this->LoginAccount;
+        $this->orderId = isset($options['order_id']) ? $options['order_id'] : $this->orderId;
+        $this->amount =  isset($options['amount']) ? $options['amount'] : $this->amount;
+        $this->callbackURL = isset($options['callback_url']) ? $options['callback_url'] : $this->callbackURL;
+        $this->AdditionalData = isset($options['AdditionalData']) ? $options['AdditionalData'] : $this->AdditionalData;
+        $this->Originator = isset($options['Originator']) ? $options['Originator'] : $this->Originator;
         return $this;
     }
 
@@ -87,7 +87,7 @@ class PecPayment {
     }
 
     public function pay_status(){
-        return isset( $this->status['pay'] ) ? $this->status['pay'] : false; 
+        return isset( $this->status['pay']['token'] ) ? $this->status['pay']['token'] : false; 
     }
 
     public function verify_status(){
@@ -98,14 +98,19 @@ class PecPayment {
         return isset( $this->status['reverse'] ) ? $this->status['reverse'] : false;
     }
 
-    public function redirect(){
-        if( isset($this->status['Token']) && !empty( $this->status['Token'] )  )
-            return header("location:https://pec.shaparak.ir/NewIPG/?token=".$status['token']);
-        else return $this->status;    
+    public function redirect($token){
+        return redirect()->to("https://pec.shaparak.ir/NewIPG/?token=".$token);
     }
 
     public function pay() {
-        if( !$this->getLoginAccount() || !$this->getAmount() || !$this->getOrderId() || !$this->getCallbackURL() )  return false; 
+        if( !$this->getLoginAccount() || !$this->getAmount() || !$this->getOrderId() || !$this->getCallbackURL() )  {
+            $this->status = [
+            'pay' => [
+                'status' => false
+            ]
+        ];
+        return $this; 
+    }
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
