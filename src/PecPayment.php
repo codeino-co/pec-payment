@@ -14,10 +14,12 @@ class PecPayment {
 
     public function __construct() {
         $this->LoginAccount = config('pec.pec_pin');
+        return $this;
     }
 
     public function pin($LoginAccount) {
         $this->LoginAccount = $LoginAccount;
+        return $this;
     }
 
     public function init($options = array() ){
@@ -27,27 +29,32 @@ class PecPayment {
         $this->callbackURL = $options['callback_url'] ?: null;
         $this->AdditionalData = $options['AdditionalData'] ?: null;
         $this->Originator = $options['Originator'] ?: null;
-
+        return $this;
     }
 
     public function setOrderId( $id ) {
         $this->orderId = $id;
+        return $this;
     }
     
     public function setAmount($amount) {
         $this->amount = $amount;
+        return $this;
     }
 
     public function setCallbackURL($callbackURL) {
         $this->callbackURL = $callbackURL;
+        return $this;
     }
 
     public function setAdditionalData($AdditionalData) {
         $this->AdditionalData = $AdditionalData;
+        return $this;
     }
 
     public function setOriginator($callbackURL) {
         $this->Originator = $Originator;
+        return $this;
     }
 
     public function getOrderId( ) {
