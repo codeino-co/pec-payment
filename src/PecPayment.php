@@ -4,16 +4,16 @@ namespace Pec;
 
 class PecPayment {
 
-    protected $LoginAccount = null;
-    protected $orderId = null;
-    protected $amount = null;
-    protected $callbackURL = null;
-    protected $AdditionalData = null;
-    protected $Originator = null;
+    private $LoginAccount = null;
+    private $orderId = null;
+    private $amount = null;
+    private $callbackURL = null;
+    private $AdditionalData = null;
+    private $Originator = null;
 
 
     public function __construct() {
-       
+        $this->LoginAccount = config('pec.pec_pin');
     }
 
     public function pin($LoginAccount) {
@@ -21,12 +21,13 @@ class PecPayment {
     }
 
     public function init($options = array() ){
-        $this->LoginAccount = $options['pin'] ?: null;
+        $this->LoginAccount = $options['pin'] ? $options['pin']: config('pec.pec_pin');
         $this->orderId = $options['order_id'] ?: null;
         $this->amount = $options['amount'] ?: null;
         $this->callbackURL = $options['callback_url'] ?: null;
         $this->AdditionalData = $options['AdditionalData'] ?: null;
         $this->Originator = $options['Originator'] ?: null;
+
     }
 
     public function setOrderId( $id ) {
@@ -186,11 +187,11 @@ class PecPayment {
         return "https://pec.shaparak.ir/NewIPGServices/Sale/SaleService.asmx";
     }
 
-    public function getVerifyURL(){
+    private function getVerifyURL(){
         return "https://pec.shaparak.ir/NewIPGServices/Confirm/ConfirmService.asmx";
     }
 
-    public function getReverseURL(){
+    private function getReverseURL(){
         return "https://pec.shaparak.ir/NewIPGServices/Reverse/ReversalService.asmx";
     }
 
