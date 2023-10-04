@@ -4,7 +4,7 @@
 
 #  درگاه پرداخت پارسیان برای لاراول | Laravel Parsian Payment Gateway
 
-Parsian Library for laravel
+Pec Library for laravel
 
 کتابخانه درگاه پرداخت پارسیان برای لاراول
 
@@ -15,7 +15,7 @@ Use composer to install this package
 برای نصب و استفاده از این پکیج می توانید از کمپوسر استفاده کنید
 
 ```bash
-composer require codeino/pec
+composer require pec/pec
 ```
 
 ## تنظیمات - Configuration
