@@ -10,6 +10,7 @@ class PecPayment {
     private $callbackURL = null;
     private $AdditionalData = null;
     private $Originator = null;
+    private $status = [];
 
 
     public function __construct() {
@@ -81,6 +82,27 @@ class PecPayment {
         return $this->Originator;
     }
 
+    public function status(){
+        return $this->status;
+    }
+
+    public function pay_status(){
+        return isset( $this->status['pay'] ) ? $this->status['pay'] : false; 
+    }
+
+    public function verify_status(){
+        return isset( $this->status['verify'] ) ? $this->status['verify'] : false;
+    }
+
+    public function reverse_status(){
+        return isset( $this->status['reverse'] ) ? $this->status['reverse'] : false;
+    }
+
+    public function redirect(){
+        if( isset($this->status['Token']) && !empty( $this->status['Token'] )  )
+            return header("location:https://pec.shaparak.ir/NewIPG/?token=".$status['token']);
+        else return $this->status;    
+    }
 
     public function pay() {
         if( !$this->getLoginAccount() || !$this->getAmount() || !$this->getOrderId() || !$this->getCallbackURL() )  return false; 
@@ -108,19 +130,24 @@ class PecPayment {
             $message = $parser->SalePaymentRequestResponse->SalePaymentRequestResult->Message;
             $status = $parser->SalePaymentRequestResponse->SalePaymentRequestResult->Status;
             
-            return [
+            $this->status = [
+                'pay' => [
                 'token' => $token,
                 'message' => $message,
                 'status' => $status
+                ]
             ]; 
         } else {
             $message = $parser->SalePaymentRequestResponse->SalePaymentRequestResult->Message;
             $status = $parser->SalePaymentRequestResponse->SalePaymentRequestResult->Status;
-            return [
+            $this->status = [
+                'pay' => [
                 'message' => $message,
                 'status' => $status
+                ]
             ];
         }
+        return $this;
     }
 
     public function verify($token) {
@@ -149,18 +176,23 @@ class PecPayment {
             $RRN = $parser->ConfirmPaymentResponse->ConfirmPaymentResult->RRN;
             $status = $parser->ConfirmPaymentResponse->ConfirmPaymentResult->Status;
             
-            return [
+            $this->status = [
+                'verify' => [
                 'token' => (string)$token,
                 'card_number' => (string)$card_number,
                 'RRN' => (string)$RRN,
                 'status' => (string)$status
+                ]
             ]; 
         } else {
             $status = $parser->ConfirmPaymentResponse->ConfirmPaymentResult->Status;
-            return [
-                'status' => (string)$status
+            $this->status = [
+                'verify' => [
+                    'status' => (string)$status
+                ]
             ];
         }
+        return $this;
     }
 
 
@@ -184,10 +216,20 @@ class PecPayment {
 
         $parser = simplexml_load_string($response2);
 
-        if( isset( $parser->ReversalRequestResponse->ReversalRequestResult->Status ) && (string)$parser->ReversalRequestResponse->ReversalRequestResult->Status === '0' ){
-            return true;
-        } else 
-            return false;
+        if( isset( $parser->ReversalRequestResponse->ReversalRequestResult->Status ) && (string)$parser->ReversalRequestResponse->ReversalRequestResult->Status === '0' )
+            $this->status = [
+                'reverse' => [
+                'status' => true
+                ]
+            ];
+         else 
+         $this->status = [
+            'reverse' => [
+            'status' => false
+            ]
+        ];
+
+        return $this;
     }
 
     private function getPaymentURL(){
