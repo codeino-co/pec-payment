@@ -17,6 +17,9 @@ Use composer to install this package
 ```bash
 composer require pec/pec
 ```
+```bash
+php artisan vendor:publish --provider=Pec\ServiceProvider
+```
 
 ## تنظیمات - Configuration
 
