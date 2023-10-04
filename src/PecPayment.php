@@ -12,7 +12,7 @@ class PecPayment {
     private $Originator = null;
     private $status = [];
 
-
+ 
     public function __construct() {
         $this->LoginAccount = config('pec.pec_pin');
         return $this;
