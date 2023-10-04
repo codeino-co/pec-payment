@@ -32,22 +32,6 @@ You can also define pin at runtime.
 
 امکان تعیین کد پذیرنده در حین اجرا نیز وجود دارد که در ادامه توضیح داده خواهد شد.
 
-To change currency to Toman (Default) 
-
-برای تغییر واحد پول به تومان (مقدار پیشفرض)
-
-```dotenv
-PEC_CURRENCY=IRT
-```
-
-To change currency to Rial
-
-برای تغییر واحد پول به ریال
-
-```dotenv
-PEC_CURRENCY=IRR
-```
-
 ## روش استفاده | How to use
 
 ### ارسال مشتری به درگاه پرداخت | Send customer to payment gateway
