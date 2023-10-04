@@ -24,12 +24,12 @@ class PecPayment {
     }
 
     public function init($options = array() ){
-        $this->LoginAccount = $options['pin'] ? $options['pin']: config('pec.pec_pin');
-        $this->orderId = $options['order_id'] ?: null;
-        $this->amount = $options['amount'] ?: null;
-        $this->callbackURL = $options['callback_url'] ?: null;
-        $this->AdditionalData = $options['AdditionalData'] ?: null;
-        $this->Originator = $options['Originator'] ?: null;
+        $this->LoginAccount = isset($options['pin']) ? $options['pin'] : null;
+        $this->orderId = isset($options['order_id']) ? $options['order_id'] : null;
+        $this->amount =  isset($options['amount']) ? $options['amount'] : null;
+        $this->callbackURL = isset($options['callback_url']) ? $options['callback_url'] : null;
+        $this->AdditionalData = isset($options['AdditionalData']) ? $options['AdditionalData'] : null;
+        $this->Originator = isset($options['Originator']) ? $options['Originator'] : null;
         return $this;
     }
 
