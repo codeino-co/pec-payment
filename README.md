@@ -1,4 +1,8 @@
-# درگاه پرداخت پارسیان | Parsian Payment Gateway
+<p align="center"><img src="https://pec.ir/uploads/assets/images/pec-logo-new.png"></p>
+
+
+
+#  درگاه پرداخت پارسیان برای لاراول | Laravel Parsian Payment Gateway
 
 Parsian Library for laravel
 
