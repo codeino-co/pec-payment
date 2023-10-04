@@ -22,7 +22,7 @@ class PecPayment {
         $this->LoginAccount = $LoginAccount;
         return $this;
     }
-
+ 
     public function init($options = array() ){
         $this->LoginAccount = isset($options['pin']) ? $options['pin'] : null;
         $this->orderId = isset($options['order_id']) ? $options['order_id'] : null;
